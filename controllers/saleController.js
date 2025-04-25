@@ -13,19 +13,18 @@ const Sale = require('../models/Sale');
 
 const createSale = async (req, res) => {
     try {
-        const { producto, valor } = req.body;
+        const { producto, valor, nombre, cedula, telefono, tarjeta, estado } = req.body;
 
-        if (!producto || !valor) {
+        if (!producto || !valor || !nombre || !cedula || !telefono || !tarjeta || !estado) {
             return res.status(400).json({ message: "Todos los campos son obligatorios" });
         }
 
-        
-
-        const sale = new Sale({ producto, valor, estado });
+        const sale = new Sale({ producto, valor, nombre, cedula, telefono, tarjeta, estado });
         await sale.save();
 
         res.status(201).json({ message: "Venta registrada", sale });
     } catch (error) {
+        console.error("Error en createSale:", error);
         res.status(500).json({ message: "Error al registrar la venta", error });
     }
 };
